@@ -139,7 +139,7 @@ def calcpath(paths,streams):
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: " + sys.argv[0] + " paths.txt")
+        print("Usage: " + sys.argv[0] + " [paths.txt]")
         sys.exit(1)
     # Just going to act like this file is here and non-malicious, etc.
     file = open(sys.argv[1])
