@@ -13,6 +13,7 @@ Algorithmic approach: Use 2 data structures.
   1 is the open air slots, with the path for each. Seed with the 0-length path going nowhere.
   2 is the jet streams, sorted by starting position, ascending.
 For each jet stream, cycle through the open air slots, separating them into 2 groups.
+  TODO: Come to think of it, I can do this with a priority queue. That might be faster.
   One group is valid to add to them. Find the lowest cost of these, and add to it. Keep the lowest cost and the added.
     I know that any later jet stream under consideration will start at least as late as this one, so higher than the lowest cost is higher for those, too.
   One group is not valid to add to them. Keep these, too.
