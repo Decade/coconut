@@ -80,7 +80,7 @@ class Path:
     def pathcost(self,position):
         """pathcost(position)
 
-        It's the responsibility of the coller to check that the position makes sense to calculate.
+        It's the responsibility of the caller to check that the position makes sense to calculate.
         """
         return self.cost + self.weight * (position - self.open)
     def isvalid(self,position):
@@ -98,7 +98,7 @@ def minimumpath(paths, position):
     Takes an iterable of paths and returns the path with the lowest cost for the position.
     Prerequisite: All of the paths are actually valid for that position, otherwise the calculation is wrong.
     """
-    return min(paths,key=lambda x: x.pathcost(position))
+    return min(paths,key=lambda path: path.pathcost(position))
 
 def finalminimum(paths):
     """fininalminimum(paths)
