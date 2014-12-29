@@ -126,6 +126,7 @@ def calcpath(paths,streams):
     for jet in streams:
         valids = [] # Paths that are valid to add a jetstream to.
         laters = [] # Paths that are kept for the next streams.
+        # The order of paths in these data structures does not matter.
         for path in paths:
             if path.isvalid(jet.start):
                 valids.append(path)
