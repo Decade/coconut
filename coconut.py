@@ -3,22 +3,29 @@
 Transporting a coconut.
 Design issue:
 There are 2 types of movement:
-  Normal movement. No jet stream. Normal movement can be interrupted at any time.
+  Normal movement. Forwards or backwards. No jet stream. Normal movement can be interrupted at any time.
   Jet stream movement. Jet stream movement can be entered and exited only at certain points.
-Journey goes from 0 to last jet stream
+Journey goes from 0 to end of last jet stream
 
 Okay, not going to bother with robustness this time.
 
 Algorithmic approach: Use 2 data structures.
-  1 is the open air slots, with the path for each. Seed with the 0-length path going nowhere.
+  1 is the paths, with the jetstreams for each and their last open points. Seed with the 0-length path going nowhere.
   2 is the jet streams, sorted by starting position, ascending.
-For each jet stream, cycle through the open air slots, separating them into 2 groups.
-  One group is valid to add to them. Find the lowest cost of these, and add to it. Keep the lowest cost and the added.
-    I know that any later jet stream under consideration will start at least as late as this one, so higher than the lowest cost is higher for those, too.
-  One group is not valid to add to them. Keep these, too.
-At the end, take the open air slots, and find the lowest distance of these.
+For each jet stream, cycle through the paths, separating them into 2 groups.
+  Group 1 has an open point *before or at the beginning* of the jetstream's start.
+    Keep at most 1 of these paths.
+  Group 2 as an open point *after* the jetstream's start.
+    Keep all of these paths.
+  Either group may be empty, but not both. Be sure to maintain this invariance.
 
-Going to use a functional approach: Do not mutate a data structure once it has finished being built, and build it in a very simple manner.
+Out of the two groups, find the lowest-cost path to add a stream to, add the stream, iterate to the next stream.
+  If it's a Group 1 path, then it could be the optimal for a future stream, too, so keep.
+  If it's not, then no Group 1 path will be optimal for a future stream, because Group 2 paths get less costly.
+
+At the end, take the paths, and find the lowest distance of these.
+
+Going to use a functional approach: Do not mutate a data structure once it has finished being built, and build it in a very simple manner. Unless benchmarks tell me otherwise.
 """
 
 import sys
