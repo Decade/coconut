@@ -17,10 +17,10 @@ For each jet stream, consider a (non-empty) collection of paths.
     Optimal is defined as being the path with the lowest cost for the bird to reach the stream's starting position.
     An optimal path is potentially the optimal path for the next jetstream, too.
   Now we need to think about what to do with the non-optimal paths.
-    If the non-optimal path requires going backwards, then it might be optimal for a later jetstream.
-      Do not need to consider further.
-    If the non-optimal path doesn't require going backwards, then it will be non-optimal for later jetstreams.
+    If the non-optimal path requires going backwards, then it might be optimal for later jetstreams.
       Keep for later.
+    If the non-optimal path doesn't require going backwards, then it will be non-optimal for later jetstreams.
+      Do not consider further.
   We can do this by testing a path for whether it's optimal, and separately for whether it's forwards.
     I'm going to (conceptually) iterate over these things twice.
 Note the asymptotic efficiency. Where the jetstreams do not overlap, the time efficiency of the program is O(n) with a very small constant.
@@ -137,7 +137,7 @@ def calcpath(paths,streams):
         laters = [path for path in paths if not path.forward(jet.start)] # Paths that are kept for the next streams.
         # The order of paths in these data structures does not matter. Just using lists because convenient.
         minimum = minimumpath(paths,jet.start)
-        if minimum.forward(jet.start): laters.append(minimum)
+        if minimum.forward(jet.start): laters.append(minimum) # If the optimal is backwards, it was already kept.
         laters.append(Path(predecessor=minimum,jetstream=jet))
         paths = laters
     return finalminimum(paths)
