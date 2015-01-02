@@ -12,16 +12,17 @@ Okay, not going to bother with robustness this time.
 Algorithmic approach: Use 2 data structures.
   1 is the paths, with the jetstreams for each and their last open points. Seed with the 0-length path going nowhere.
   2 is the jet streams, sorted by starting position, ascending.
-For each jet stream, cycle through the paths, separating them into 2 groups.
-  Group 1 has an open point *before or at the beginning* of the jetstream's start.
-    Keep at most 1 of these paths.
-  Group 2 as an open point *after* the jetstream's start.
-    Keep all of these paths.
-  Either group may be empty, but not both. Be sure to maintain this invariance.
-
-Out of the two groups, find the lowest-cost path to add a stream to, add the stream, iterate to the next stream.
-  If it's a Group 1 path, then it could be the optimal for a future stream, too, so keep.
-  If it's not, then no Group 1 path will be optimal for a future stream, because Group 2 paths get less costly.
+For each jet stream, consider a (non-empty) collection of paths.
+  One path is the optimal path to add a stream to it.
+    Optimal is defined as being the path with the lowest cost for the bird to reach the stream's starting position.
+    An optimal path is potentially the optimal path for the next jetstream, too.
+  Now we need to think about what to do with the non-optimal paths.
+    If the non-optimal path requires going backwards, then it might be optimal for a later jetstream.
+      Do not need to consider further.
+    If the non-optimal path doesn't require going backwards, then it will be non-optimal for later jetstreams.
+      Keep for later.
+  We can do this by testing a path for whether it's optimal, and separately for whether it's forwards.
+    Benchmarks will tell whether it's better to (conceptually) loop through the paths twice.
 
 At the end, take the paths, and find the lowest distance of these.
 
@@ -118,7 +119,7 @@ def finalminimum(paths):
 def calcpath(paths,streams):
     """calcpath(paths, streams)
 
-    Takes an initial iterable of paths and a sorted iterable of jetstreams to add, and returns whatever finalminimum() returns.
+    Takes an initial iterable of paths and an in-order iterable of jetstreams to add, and returns whatever finalminimum() returns.
     Which is a tuple of the lowest-cost path and the final cost over that path.
 
     Function signature and operation inspired by recursive Scheme style, but turned into an iteration because Python is more efficient with iteration than recursion.
