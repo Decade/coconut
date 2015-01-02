@@ -61,8 +61,8 @@ class Path:
 
     Functions:
 
-    pathcost() -- How much it would take to go a certain distance past the open point using this path
-    invalid() -- Whether the pathcost calculation would make sense for this certain distance
+    pathcost() -- How much it would take to go to a certain point via open air after going on this path
+    forward() -- Whether the bird would be moving forward to go to this point
     """
     def __init__(self,*,weight=1,predecessor=None,jetstream=None):
         """__init__()
@@ -81,18 +81,18 @@ class Path:
         else:
             self.weight = predecessor.weight
             self.open = jetstream.end
-            self.cost = predecessor.cost + jetstream.cost + self.weight * (jetstream.start - predecessor.open)
+            self.cost = predecessor.cost + jetstream.cost + self.weight * abs(jetstream.start - predecessor.open)
             self.jetstreams = predecessor.jetstreams + [jetstream]
     def pathcost(self,position):
         """pathcost(position)
 
         It's the responsibility of the caller to check that the position makes sense to calculate.
         """
-        return self.cost + self.weight * (position - self.open)
-    def isvalid(self,position):
-        """invalid(position)
+        return self.cost + self.weight * abs(position - self.open)
+    def forward(self, position):
+        """forward(position)
 
-        Validity is defined as being in open air at that position.
+        True if the bird would be moving forward from this path to this position
         """
         return position >= self.open
     def __str__(self):
