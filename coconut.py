@@ -22,7 +22,7 @@ For each jet stream, consider a (non-empty) collection of paths.
     If the non-optimal path doesn't require going backwards, then it will be non-optimal for later jetstreams.
       Keep for later.
   We can do this by testing a path for whether it's optimal, and separately for whether it's forwards.
-    Benchmarks will tell whether it's better to (conceptually) loop through the paths twice.
+    My headache wins. I'm going to (conceptually) iterate over these things twice.
 
 At the end, take the paths, and find the lowest distance of these.
 
@@ -131,16 +131,10 @@ def calcpath(paths,streams):
     Function arguments are not modified.
     """
     for jet in streams:
-        valids = [] # Paths that are valid to add a jetstream to.
-        laters = [] # Paths that are kept for the next streams.
-        # The order of paths in these data structures does not matter.
-        for path in paths:
-            if path.isvalid(jet.start):
-                valids.append(path)
-            else:
-                laters.append(path)
-        minimum = minimumpath(valids,jet.start)
-        laters.append(minimum)
+        laters = [path for path in paths if not path.forward(jet.start)] # Paths that are kept for the next streams.
+        # The order of paths in these data structures does not matter. Just using lists because convenient.
+        minimum = minimumpath(paths,jet.start)
+        if minimum.forward(jet.start): laters.append(minimum)
         laters.append(Path(predecessor=minimum,jetstream=jet))
         paths = laters
     return finalminimum(paths)
