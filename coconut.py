@@ -23,7 +23,7 @@ For each jet stream, consider a (non-empty) collection of paths.
       Keep for later.
   We can do this by testing a path for whether it's optimal, and separately for whether it's forwards.
     I'm going to (conceptually) iterate over these things twice.
-Note the asymptotic efficiency. Where the jetstreams do not overlap, the time efficiency is O(n) with a very small constant.
+Note the asymptotic efficiency. Where the jetstreams do not overlap, the time efficiency of the program is O(n) with a very small constant.
 Where they do overlap, the time efficiency is O(n*j) where j is the number of streams that overlap.
 Just iterating over the paths twice in this loop does not affect the asymptotic efficiency, but does affect the overall efficiency.
 
