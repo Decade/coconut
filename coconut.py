@@ -13,7 +13,6 @@ Algorithmic approach: Use 2 data structures.
   1 is the open air slots, with the path for each. Seed with the 0-length path going nowhere.
   2 is the jet streams, sorted by starting position, ascending.
 For each jet stream, cycle through the open air slots, separating them into 2 groups.
-  TODO: Come to think of it, I can do this with a priority queue. That might be faster.
   One group is valid to add to them. Find the lowest cost of these, and add to it. Keep the lowest cost and the added.
     I know that any later jet stream under consideration will start at least as late as this one, so higher than the lowest cost is higher for those, too.
   One group is not valid to add to them. Keep these, too.
@@ -57,7 +56,6 @@ class Path:
 
     pathcost() -- How much it would take to go a certain distance past the open point using this path
     invalid() -- Whether the pathcost calculation would make sense for this certain distance
-
     """
     def __init__(self,*,weight=1,predecessor=None,jetstream=None):
         """__init__()
@@ -106,9 +104,9 @@ def finalminimum(paths):
 
     Takes an iterable of paths and returns a tuple of the lowest-cost path for the longest distance tuple in that path, and the final cost over that path.
     """
-    finaldest = max(paths,key=lambda path: path.open)
-    minimum = minimumpath(paths,finaldest.open)
-    return minimum,minimum.pathcost(finaldest.open)
+    finaldest = max(paths,key=lambda path: path.open).open
+    minimum = minimumpath(paths,finaldest)
+    return minimum,minimum.pathcost(finaldest)
 
 def calcpath(paths,streams):
     """calcpath(paths, streams)
