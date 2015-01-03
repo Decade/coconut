@@ -113,7 +113,7 @@ def minimumpath(paths, position):
 def finalminimum(paths):
     """fininalminimum(paths)
 
-    Takes an iterable of paths and returns a tuple of the lowest-cost path for the longest distance tuple in that path, and the final cost over that path.
+    Takes an iterable of paths and returns a tuple of the lowest-cost path for the longest distance jetstream in the paths, and the final cost over that path.
     """
     finaldest = max(paths,key=lambda path: path.open).open
     minimum = minimumpath(paths,finaldest)
