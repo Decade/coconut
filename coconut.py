@@ -75,7 +75,7 @@ class Path:
         Path(weight = [n]) -- A 0-jetstream path with a certain open-air weight
         Path(predecessor = [pathlike object], jetstream = [new stream]) -- A new path with the previous path's jetstreams, adding a new jetstream
 
-        It's the responsibility of the caller to check that the new jetstream makes sense to add.
+        If called any other way, the result is undefined.
         """
         if predecessor == None or jetstream == None:
             self.weight = weight
