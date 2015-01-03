@@ -18,16 +18,16 @@ For each jet stream, consider a (non-empty) collection of paths.
     An optimal path is potentially the optimal path for the next jetstream, too.
   Now we need to think about what to do with the non-optimal paths.
     If the non-optimal path requires going backwards, then it might be optimal for later jetstreams.
-      Keep for later.
+      Keep for later. Later jetstreams might start closer to the path's open position.
     If the non-optimal path doesn't require going backwards, then it will be non-optimal for later jetstreams.
-      Do not consider further.
+      Do not keep. Later jetstreams have higher starting positions, so the cost only continues to go up.
   We can do this by testing a path for whether it's optimal, and separately for whether it's forwards.
     I'm going to (conceptually) iterate over these things twice.
 Note the asymptotic efficiency. Where the jetstreams do not overlap, the time efficiency of the program is O(n) with a very small constant.
 Where they do overlap, the time efficiency is O(n*j) where j is the number of streams that overlap.
-Just iterating over the paths twice in this loop does not affect the asymptotic efficiency, but does affect the overall efficiency.
+Just iterating over the paths twice in this loop does not affect the asymptotic efficiency, but does affect the overall efficiency, in the absence of the "sufficiently smart compiler."
 
-At the end, take the paths, and find the lowest distance of these.
+At the end, take the paths, and find the lowest cost of these.
 
 Going to use a functional approach: Do not mutate a data structure once it has finished being built, and build it in a very simple manner. Unless benchmarks tell me otherwise.
 """
